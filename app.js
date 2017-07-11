@@ -20,16 +20,26 @@ module.exports = function (app, logger) {
         var page = req.params.page || 1,
             itemsOnPage = 30;
 
+        page = parseInt(page);
+
+        var level = req.query.level || '';
+
         wld.list({
             limit: itemsOnPage,
-            offset: (page - 1) * itemsOnPage
+            offset: (page - 1) * itemsOnPage,
+            level: level
         }).then(function (logs) {
             var pagesCount = Math.floor(wld.count / itemsOnPage) + (wld.count % itemsOnPage === 0 ? 0 : 1);
 
+            var start = Math.max(1, page - 2);
+            var end = Math.min(pagesCount, start + 4);
+
             res.send(jade.renderFile(__dirname + '/views/logs.jade', {
                 logs: logs,
-                pages: _.range(1, pagesCount + 1),
-                currentPage: page
+                pages: _.range(start, end + 1),
+                currentPage: page,
+                lastPage: pagesCount,
+                level: level
             }, null));
         });
 

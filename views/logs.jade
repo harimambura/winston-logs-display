@@ -20,6 +20,7 @@ html(lang="en")
     body
         div.container
             h1 Logs
+            pre To apply a filter just append ?level=<i>minimum_level</i> to the url!
             table.table.table-condensed
                 thead
                     tr
@@ -45,6 +46,18 @@ html(lang="en")
             if pages.length > 1
                 nav
                     ul.pagination
+                        li(class=currentPage == 1 ? "disabled" : "")
+                            a(href=currentPage == 1 ? '#' : '/logs/1?level=' + level)= '< First'
+
+                        li(class=currentPage == 1 ? "disabled" : "")
+                            a(href=currentPage == 1 ? '#' : '/logs/' + (currentPage - 1) + '?level=' + level)= '<'
+
                         each page in pages
                             li(class=page == currentPage ? "active" : "")
-                                a(href='/logs/' + page)= page
+                                a(href='/logs/' + page + '?level=' + level)= page
+
+                        li(class=currentPage == lastPage ? "disabled" : "")
+                            a(href=currentPage == lastPage ? '#' : '/logs/' + (currentPage + 1) + '?level=' + level)= '>'
+
+                        li(class=currentPage == lastPage ? "disabled" : "")
+                            a(href=currentPage == lastPage ? '#' : '/logs/' + lastPage + '?level=' + level)= 'Last >'
