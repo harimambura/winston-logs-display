@@ -8,6 +8,10 @@ module.exports = function (app, logger) {
 
     wld = new (require('./lib/wld'))(logger);
 
+    app.get('/', function(req, res) {
+        res.redirect('/logs/1');
+    });
+
     app.get('/logs', function(req, res) {
         res.redirect('/logs/1');
     });
@@ -24,7 +28,8 @@ module.exports = function (app, logger) {
 
             res.send(jade.renderFile(__dirname + '/views/logs.jade', {
                 logs: logs,
-                pages: _.range(1, pagesCount + 1)
+                pages: _.range(1, pagesCount + 1),
+                currentPage: page
             }, null));
         });
 

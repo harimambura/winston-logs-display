@@ -46,5 +46,5 @@ html(lang="en")
                 nav
                     ul.pagination
                         each page in pages
-                            li
+                            li(class=page == currentPage ? "active" : "")
                                 a(href='/logs/' + page)= page
