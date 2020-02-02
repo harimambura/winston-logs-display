@@ -6,7 +6,11 @@ let wld;
 
 module.exports = function(app, logger) {
 
-	wld = new (require('./lib/wld'))(logger);
+	try {
+		wld = new (require('./lib/wld'))(logger);
+	} catch (e) {
+		console.log(e.message || e);
+	}
 
 	app.get('/logs', function(req, res) {
 		res.redirect('/logs/1');
