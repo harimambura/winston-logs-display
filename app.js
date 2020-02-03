@@ -16,7 +16,7 @@ module.exports = function(app, logger) {
 		res.redirect('/logs/1');
 	});
 
-	app.get('/logs/:page', function(req, res) {
+	app.get('/logs/:page', function(req, res) {debugger;
 		let page = parseInt(req.params.page) || 1;
 		const itemsOnPage = 30;
 		const level = req.query.level || '';
@@ -30,7 +30,7 @@ module.exports = function(app, logger) {
 
 			const start = Math.max(1, page - 2);
 			const end = Math.min(pagesCount, start + 4);
-
+debugger;
 			let file;
 			jade.renderFile(__dirname + '/views/logs.jade', {
 				logs: logs,
