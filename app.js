@@ -31,13 +31,24 @@ module.exports = function(app, logger) {
 			const start = Math.max(1, page - 2);
 			const end = Math.min(pagesCount, start + 4);
 
-			res.send(jade.renderFile(__dirname + '/views/logs.jade', {
+			let file;
+			jade.renderFile(__dirname + '/views/logs.jade', {
 				logs: logs,
 				pages: _.range(start, end + 1),
 				currentPage: page,
 				lastPage: pagesCount,
 				level: level
-			}, null));
+			}, (err, htmlStr) => {
+				if (err) {
+					log('Error processing log.', err);
+				} else {
+					file = htmlStr;
+				}
+			});
+
+			res.send(file);
+		}, function() {
+			console.log('Something was wrong!');
 		});
 
 	});
